@@ -3,7 +3,7 @@
 // fix for fontawesome to work in reveal.js.
 // see css/theme/source/_fontawesome.scss for details
 // Uncomment it if you plan to use fontawesome.
-//@import "fontawesome";
+@import "fontawesome";
 
 // Uncomment the following if you plan to use runnable
 // scripts.
@@ -13,4 +13,114 @@
 // ``` javascript
 // <pre><code class="javascript runnable">// Type your code here</code></pre>
 // ```
-// @import "runnable";
+@import "runnable";
+
+@import "boxes";
+@import "cover";
+
+.reveal {
+    .cover img {
+        border: none;
+        box-shadow: none;
+        margin: 50px auto;
+    }
+    pre code {
+        font-size: 1.3em;
+        line-height: 1.5em;
+        max-height: 600px;
+    }
+    .small-code pre code {
+        font-size: 1em;
+        line-height: 1.2em;
+    }
+
+    // some utilities
+    p.big {
+        font-size: 1.4em;
+    }
+    .two-columns > *,
+    .two-columns > pre {
+        width: 48%;
+        display: inline-block;
+        vertical-align: top;
+    }
+    .two-columns > *:nth-child(2n+1) {
+        margin-right: 2%;
+    }
+    // override vertical behavior for code blocks
+    .two-columns > pre {
+        vertical-align: middle;
+    }
+
+    .three-columns > *,
+    .three-columns > pre {
+        width: 31%;
+        margin-right: 2%;
+        display: inline-block;
+        vertical-align: top;
+    }
+    .three-columns > *:nth-child(3n+0) {
+        margin-right: 0%;
+    }
+    // override vertical behavior for code blocks
+    .three-columns > pre {
+        vertical-align: top;
+    }
+
+    // Create an inline list.
+    //
+    // <ul class="inline-list space-top">
+    // <li>64 bytes</li>
+    // <li>1 byte for sign</li>
+    // <li>11 bytes for dot position</li>
+    // </ul>
+    .inline-list {
+        margin: 20px 0;
+        padding: 0;
+        li {
+            display: inline-block;
+            text-align: left;
+            padding-right: 20px;
+        }
+    }
+
+    pre.green {
+        box-shadow: 0 0 10px rgba(0,250,0,.6);
+        border-left: 5px solid green;
+    }
+    pre.red {
+        box-shadow: 0 0 10px rgba(250,0,0,.6);
+        border-left: 5px solid red;
+    }
+
+    p.source {
+        display: block;
+        text-align: right;
+        color: lighten( $mainColor, 20% );
+    }
+    blockquote {
+        padding: 5px 35px;
+        &:before {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 3em;
+            text-align: left;
+            font-family: 'FontAwesome';
+            content: "\f10e";
+            color: lighten( $mainColor, 50% );
+        }
+    }
+
+    & > pre {
+        margin: 5px 0;
+        width: auto;
+    }
+
+    accronym {
+        text-decoration: none; border-bottom:1px dashed $linkColor;
+    }
+
+    .text-left { text-align: left; }
+    .text-right { text-align: right; }
+}

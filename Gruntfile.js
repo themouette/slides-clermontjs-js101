@@ -34,27 +34,27 @@ module.exports = function(grunt) {
 //                template: 'index.tpl',
                 // default theme for presentation
                 // It remains possible to change it using the querystring.
-                theme: 'example',
+                theme: 'clermontjs',
                 // An array of extra scripts to include.
-                scripts: [],
+                scripts: [ 'scripts/runnable.js'],
                 // An array of extra stylesheets to include
-                styles: [],
+                styles: [ '//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css' ],
                 // Slidedeck title
                 // This is used as cover slide title and as html title.
-//                title: '',
+                title: 'Javascript 101',
                 // Description meta.
                 // default value is extracted from `package.json`
 //                description: '',
                 // Slides author.
                 // default value is extracted from `package.json`
-//                author: { name: '', url: '', email: ''},
+                author: { name: 'Julien Muetton', url: 'http://muetton.me', email: 'julien@muetton.me'},
                 // twitter username
                 // If provided, will be displayed after author name.
-//                twitter: '',
+                twitter: 'themouette',
                 // cover slide image url.
                 // This image is inserted between title and credits.
                 // example value 'img/jslogo.jpg'
-                cover: null
+                cover: 'img/logo.png'
             }
         },
         connect: {
@@ -62,7 +62,7 @@ module.exports = function(grunt) {
                 options: {
                     port: 8000,
                     base: '.',
-                    hostname: '0.0.0.0'
+                    hostname: '*'
                 }
             }
         },
