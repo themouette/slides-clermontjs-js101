@@ -1,0 +1,1527 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>Javascript 101</title>
+
+        <meta name="description" content="Slides bootstrap">
+        <meta name="author" content="Julien Muetton">
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <link rel="stylesheet" href="reveal.js/css/reveal.min.css">
+        <link rel="stylesheet" href="css/theme/clermontjs.css" id="theme">
+
+        <!-- For syntax highlighting -->
+        <link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">
+
+        
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" />
+        
+
+        <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+        <script>
+            document.write( '<link rel="stylesheet" href="reveal.js/css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+        </script>
+
+        <!--[if lt IE 9]>
+        <script src="reveal.js/lib/js/html5shiv.js"></script>
+        <![endif]-->
+
+    </head>
+
+    <body>
+
+        <div class="reveal">
+
+            <!-- Any section element inside of this container is displayed as a slide -->
+            <div class="slides">
+                <section class="cover">
+                    <h1>Javascript 101</h1>
+                    
+                        <img src="img/logo.png" class="cover-img" />
+                    
+                    <p class="author">
+                    <small>
+                        By
+                        
+                            <a href="">Julien Muetton</a>
+                        
+                        
+                            / <a href="https://twitter.com/themouette">@themouette</a>
+                        
+                    </small>
+                    </p>
+                    <p class="given">
+                        <small class="given-at"></small>
+                        <small class="given-on"></small>
+                    </p>
+                </section>
+
+                <section data-markdown data-separator="^\n---+\n---+\n$" data-vertical="^\n---+\n$" data-notes="^Note:" data-charset="utf-8"><script type="text/template">
+Environments
+============
+
+---
+
+## Server
+
+* [Nodejs](http://nodejs.org/)
+* [Rhino](https://developer.mozilla.org/en/docs/Rhino)
+
+---
+
+## Shipping applications
+
+* [node-webkit](https://github.com/rogerwang/node-webkit) for the desktop
+* [titanium](http://www.appcelerator.com/titanium/) or [phonegap](http://phonegap.com/) for mobiles
+
+---
+
+## Web browser
+
+* Websites
+* Extensions
+
+<p class="alert">
+A [list of web browsers](http://web.appstorm.net/roundups/browsers/the-ultimate-list-of-browsers/) <!-- .element: class="icontext link" -->
+and
+[Another](https://github.com/alrra/browser-logos#readme) <!-- .element: class="icontext link" -->
+</p>
+
+</script></section>
+<section data-markdown data-separator="^\n---+\n---+\n$" data-vertical="^\n---+\n$" data-notes="^Note:" data-charset="utf-8"><script type="text/template">
+Data type
+=========
+
+---
+
+## Undefined
+
+<pre><code class="javascript runnable" data-runnable-output="jsonalert">var foo;
+typeof foo;
+</code></pre>
+
+---
+
+## Null
+
+<pre><code class="javascript runnable" data-runnable-output="jsonalert">var foo = null;
+typeof foo;
+</code></pre>
+
+---
+
+## Boolean
+
+[Boolean reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)
+
+---
+
+## Number
+
+``` javascript
+123     // integer
+
+12.345  // fractional
+
+12.3e4  // 'scientific' notation: 12.3 * 10^4
+```
+
+<!-- .element: class="icontext doc" --> [Number Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)
+
+---
+
+## Limitations
+
+<pre><code class="javascript runnable" data-runnable-output="alert">0.1 + 0.2 == 0.30000000000000004</code></pre>
+<pre><code class="javascript runnable" data-runnable-output="alert">0.1 + 0.2 === 0.30000000000000004</code></pre>
+
+<ul>
+<li>**64 bytes** total;</li>
+<li>**1 byte** for sign;</li>
+<li>**11 bytes** for dot position</li>
+</ul>
+
+<p class="alert info">**52 bytes** left for number itself.</p>
+
+---
+
+## Converting to numbers
+
+<pre><code class="javascript runnable" data-runnable-output="alert">(123).toString(16); // 7b</code></pre>
+
+<pre><code class="javascript runnable" data-runnable-output="alert">parseInt('123', 10); // 123</code></pre>
+<pre class="fragment"><code class="javascript runnable" data-runnable-output="alert">parseInt('123'); // 123</code></pre>
+<pre class="fragment"><code class="javascript runnable" data-runnable-output="alert">parseInt('7B', 16); // 123</code></pre>
+<pre class="fragment"><code class="javascript runnable" data-runnable-output="alert">parseInt('7B'); // 7</code></pre>
+
+<em class="fragment"><code class="javascript">parseInt("010")</code> returns 8 in pre-2013 browsers.</em>
+
+<p class="alert warn fragment">Always use a radix.</p>
+
+---
+
+## NaN, Infinity, -Infinity
+
+
+<div class="two-columns">
+<pre><code class="javascript runnable" data-runnable-output="alert">12/0;  // Infinity</code></pre>
+<pre><code class="javascript runnable" data-runnable-output="alert">-12/0; // -Infinity</code></pre>
+</div>
+<div class="two-columns">
+<pre class="red"><code class="javascript runnable" data-runnable-output="alert">NaN === NaN; // false</code></pre>
+<pre><code class="javascript runnable" data-runnable-output="alert">3/"a"; // NaN</code></pre>
+</div>
+
+<pre class="green"><code class="javascript runnable" data-runnable-output="alert">(-Number.MAX_VALUE) * 2 === Number.NEGATIVE_INFINITY;</code></pre>
+<pre class="green"><code class="javascript runnable" data-runnable-output="alert">Number.isNaN(Number.NaN);</code></pre>
+
+---
+
+## String
+
+``` javascript
+"Patch my boat with chewing gum."
+"This is the first line\nAnd this is the second"
+"A newline character is written like \"\\n\"."
+```
+
+Concatenate using `+`
+
+<pre><code class="javascript runnable" data-runnable-output="alert">"The cat" + " ate my" + " source code"</code></pre>
+
+<!-- .element: class="icontext doc" --> [String Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)
+
+---
+
+## Function
+
+<pre><code class="javascript runnable" data-runnable-output="alert">function add(a, b) {
+    return a + b;
+}
+add(1, 2);
+</code></pre>
+
+<p class="alert info">Functions are objects too.</p>
+
+<pre><code class="javascript runnable" data-runnable-output="alert">var add = function (a, b) {
+    return a + b;
+}
+add(1, 2);
+</code></pre>
+
+<!-- .element: class="icontext doc" --> [Function Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function)
+
+---
+
+## Array
+
+<accronym title="Java Script Object Notation">JSON</accronym> way:
+
+<pre><code class="javascript runnable" data-runnable-output="alert">var a  = [1, 2], b;
+
+a.push(3);
+b = a.concat([4, 5]);
+b.join(', ');
+</code></pre>
+
+[Array Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) <!-- .element: class="icontext doc" -->
+and
+[Array extra (since "1.6")](https://developer.mozilla.org/en-US/docs/Web/JavaScript/New_in_JavaScript/1.6#Array_extras) <!-- .element: class="icontext doc" -->
+
+---
+
+## Object
+
+<accronym title="Java Script Object Notation">JSON</accronym> way:
+
+``` javascript
+var cat  = {colour: "grey", name: "Spot", size: 46};
+```
+
+Constructor way:
+
+``` javascript
+var zombie  = new Object();
+```
+
+<!-- .element: class="icontext doc" --> [Object Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)
+
+---
+
+## Accessing properties
+
+``` javascript
+var cat = {colour: "grey", name: "Spot", size: 46};
+
+cat.colour; //grey
+
+cat['name']; //Spot
+```
+
+**`toString()`** method
+
+<pre><code class="javascript runnable" data-runnable-output="jsonalert">var cat = {colour: "grey", name: "Spot", size: 46};
+cat.toString();
+</code></pre>
+
+
+---
+
+## Setting properties
+
+<pre><code class="javascript runnable">var cat = {colour: "grey", name: "Spot", size: 46};
+
+cat.size = 47;
+console.log(cat.size);
+
+delete cat.size;
+console.log(cat.size);
+console.log(cat);
+</code></pre>
+
+<p class="alert info">Open your browser console to see examples in action.</p>
+
+---
+
+## RegExp
+
+<pre><code class="javascript runnable" data-runnable-output="jsonalert">/^a\w+$/.test('abricot');</code></pre>
+<pre><code class="javascript runnable" data-runnable-output="jsonalert">"peach".match(/(\w+)a(\w+)$/);</code></pre>
+<pre><code class="javascript runnable" data-runnable-output="jsonalert">(/^a\w+$/i).test('Abricot');</code></pre>
+
+<!-- .element: class="icontext doc" --> [RegExp reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp)
+
+---
+
+## Date
+
+<!-- .element: class="icontext doc" --> [Date reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date)
+
+---
+
+## Bonus: `typeof` and `instanceof`
+
+
+[instanceof reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof)
+[typeof reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof)
+
+---
+
+## Bonus: equality
+
+<div class="two-columns">
+<pre class="green"><code class="javascript runnable" data-runnable-output="jsonalert">null == undefined</code></pre>
+<pre class="red"><code class="javascript runnable" data-runnable-output="jsonalert">null === undefined</code></pre>
+
+<pre class="green"><code class="javascript runnable" data-runnable-output="jsonalert">0 == false</code></pre>
+<pre class="red"><code class="javascript runnable" data-runnable-output="jsonalert">0 === false</code></pre>
+
+<pre class="green"><code class="javascript runnable" data-runnable-output="jsonalert">5 == "5"</code></pre>
+<pre class="red"><code class="javascript runnable" data-runnable-output="jsonalert">5 === "5"</code></pre>
+
+<pre class="green"><code class="javascript runnable" data-runnable-output="jsonalert">var a = {};
+a == "[object Object]"</code></pre>
+<pre class="red"><code class="javascript runnable" data-runnable-output="jsonalert">var a = {};
+a === "[object Object]"</code></pre>
+
+<p>type conversion
+
+<p>identity
+</div>
+
+<p class="alert article">Must read article about Javascript [equality](http://rayfd.me/2007/03/18/really-understanding-javascripts-equality-and-identity/)</p>
+
+---
+
+## API References
+
+<p class="alert">[Documentation for all global objects](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects)</p>
+
+---
+---
+
+JSON
+====
+
+---
+
+## Example
+
+``` json
+{
+    "foo": "bar",
+    "baz": [ 1, true, null ],
+    "number": 1.23e4
+}
+```
+
+<p class="alert">
+[JSON Standard](http://www.json.org/) <!-- .element: class="icontext doc" -->
+and
+[JSONlint](http://jsonlint.com/) <!-- .element: class="icontext link" -->
+</p>
+
+---
+---
+
+Control Flow
+============
+
+<!-- .element: class="icontext doc" -->[All available statements](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements)
+
+---
+
+## if, else
+
+``` javascript
+if (typeof a === "undefined") {
+    // a is undefined
+} else if (a instanceof Number) {
+    // a is a Number
+} else {
+    throw new Error('Hey, you missed the contract !')
+}
+```
+
+---
+
+## Switch
+
+``` javascript
+switch(action) {
+    case 'draw':
+        drawit();
+        break;
+    case 'eat':
+        eatit();
+        break;
+    default:
+        donothing();
+}
+```
+
+<p class="alert warning">Used for multiple branches based on a number or string</p>
+
+---
+
+## in
+
+<pre><code class="javascript runnable" data-runnable-output="jsonalert">var obj = {
+    foo: null
+};
+
+"foo" in obj;
+</code></pre>
+
+<p class="alert tip">Used to check existance of a variable</p>
+
+---
+
+## try, catch, finally, throw
+
+``` javascript
+try {
+  foo.bar();
+} catch (e) {
+  if (e instanceof EvalError) {
+    alert(e.name + ": " + e.message);
+  } else if (e instanceof RangeError) {
+    alert(e.name + ": " + e.message);
+  }
+} finally {
+    foo.baz();
+}
+```
+
+<!-- .element: class="icontext doc" --> [try...catch reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch)
+
+---
+
+# Error types
+
+All the following errors should be available:
+
+`Error`, `EvalError`, `RangeError`, `ReferenceError`, `SyntaxError`, `TypeError`, `URIError`
+
+<p class="icontext doc">[All errors](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error#Description)<p>
+
+---
+
+## while, do {} while
+
+<div class="two-columns">
+<pre><code class="javascript">var pancakes = [];
+function is_empty(stack) {
+    return !stack.length;
+}
+
+while (!is_empty(pancakes)) {
+    eat_one(pancakes);
+}
+</code></pre>
+<pre><code class="javascript">do {
+   i += 1;
+   document.write(i);
+} while (i < 5);
+</code></pre>
+</div>
+
+<span class="icontext doc">[do...while](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/do...while)</span>
+and
+<span class="icontext doc"> [while reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/while)</span>
+
+---
+
+## for
+
+``` javascript
+for (var i = 0; i < 9; i++) {
+   n += i;
+   myfunc(n);
+}
+```
+
+---
+
+## for in
+
+Use `hasOwnProperty` to filter inherited properties:
+
+``` javascript
+for (var prop in obj) {
+
+    if( obj.hasOwnProperty( prop ) ) {
+        result += objName + "." + prop + " = " + obj[prop] + "\n";
+    }
+
+}
+```
+
+<p class="alert link">[for...in reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in)
+and
+[Why use hasOwnProperty](http://phrogz.net/death-to-hasownproperty)</p>
+
+Note:
+
+Problems occurs when Globals (Object, Array) are extended for instance.
+
+---
+
+## with
+
+<!-- .element: class="alert error" --> Do not use with.
+
+
+</script></section>
+<section data-markdown data-separator="^\n---+\n---+\n$" data-vertical="^\n---+\n$" data-notes="^Note:" data-charset="utf-8"><script type="text/template">
+# Coding standards
+
+---
+
+<h2>CS: Braces</h2>
+
+<p><a href="http://inimino.org/~inimino/blog/javascript_semicolons">automatic semicolon insertion</a> force to put braces at the EOL</p>
+
+<pre class="red"><code class="javascript">// BAD
+return
+{
+    foo: "foo"
+};</code></pre>
+
+<p class="vs">vs</p>
+
+<pre class="green"><code class="javascript">// GOOD
+return {
+    foo: "foo"
+}; </code></pre>
+
+---
+
+<h2>CS: Strings</h2>
+
+<p>Use `Array.join()` to declare multiline strings</p>
+
+<pre class="red"><code class="javascript">// BAD
+var foo = 'Lorem ipsum dolor sit amet, consetetur '
+        + 'sadipscing elitr, sed diam nonumy ';</code></pre>
+
+<p class="vs">vs</p>
+
+<pre class="green"><code class="javascript">// GOOD
+var foo = [
+    'Lorem ipsum dolor sit amet, consetetur ',
+    'sadipscing elitr, sed diam nonumy '
+    ].join(''); </code></pre>
+
+---
+
+<h2>CS: name your functions</h2>
+
+<p>Lambda functions are shown as (anonymous) in debugger.</p>
+
+<pre class="red"><code class="javascript">// BAD
+var foo = function() {
+    /* ... */
+};</code></pre>
+
+<p class="vs">vs</p>
+
+<pre class="green"><code class="javascript">// GOOD
+var foo = function foo() {
+    /* ... */
+};</code></pre>
+
+---
+
+<h2>CS: use JSON</h2>
+
+<p>Variable initialization should remain readable</p>
+
+<pre class="red"><code class="javascript">// BAD
+var foo = new Object();
+foo.name = 'John';
+foo.age = 32;</code></pre>
+
+<p class="vs">vs</p>
+
+<pre class="green"><code class="javascript">// GOOD
+var foo = {
+    name: 'john',
+    age: 32
+};</code></pre>
+
+---
+
+<h2>CS: Semicolons</h2>
+
+<p>Semicolons `;` are optional as <strong><accronym title="Automatic Semicolon Insertion">ASI</accronym></strong> insert them for us.</p>
+
+<div class="two-columns">
+<pre><code class="javascript">a = b + c
+foo()</code></pre>
+<pre class="fragment green"><code class="javascript">// All right
+a = b + c ; foo()</code></pre>
+</div>
+
+<div class="two-columns">
+<pre><code class="javascript">a = b + c
+[1].push(a)</code></pre>
+<pre class="fragment red"><code class="javascript">// Not what expected
+a = b + c[1].push(a)
+</code></pre>
+</div>
+
+<div class="two-columns">
+<pre><code class="javascript">a = b + c
+(opts || {}).foo ? bar() : baz()</code></pre>
+<pre class="fragment red"><code class="javascript">// Not what expected
+a = b + c(opts || {}).foo ? bar() : baz()</code></pre>
+</div>
+
+<div class="fragment">
+    <blockquote style="margin-top:50px;">
+        <p>Either you learn <accronym title="Automatic Semicolon Insertion">ASI</accronym> rules or you write semicolons</p>
+    </blockquote>
+    <p>To go further on
+        <accronym title="Automatic Semicolon Insertion">ASI</accronym>:
+        <a href="http://dailyjs.com/2012/04/19/semicolons/">DailyJS on <accronym title="Automatic Semicolon Insertion">ASI</accronym></a>
+    </p>
+</div>
+
+
+---
+
+<p class="big">
+    <strong>More advices in the <a href="https://github.com/airbnb/javascript">Airbnb JavaScript Style Guide</a></strong>
+</p>
+
+</script></section>
+<section data-markdown data-separator="^\n---+\n---+\n$" data-vertical="^\n---+\n$" data-notes="^Note:" data-charset="utf-8"><script type="text/template">
+
+# Variables and contexts
+
+
+---
+
+<h2>Contexts</h2>
+
+<pre><code class="javascript runnable">var foo = "outside";
+function test() {
+    var foo = "inside";
+    console.log('test foo is "%s"', foo);
+}
+
+test();
+console.log('outside foo is "%s"', foo);</code></pre>
+
+<p>Will output</p>
+
+<pre class="fragment"><code class="javascript">test foo is "inside"
+outside foo is "outside"</code></pre>
+
+<blockquote class="fragment">
+    <p>Each function defines its own context and can access definition context.</p>
+</blockquote>
+
+
+
+---
+
+<h2>Local vs Global</h2>
+
+<p>Any variable not declared with <code>var</code> is <strong>global</strong>.</p>
+
+<pre><code class="javascript runnable">var foo = "outside";
+function test() {
+    foo = "inside";
+    console.log('test foo is "%s"', foo);
+}
+
+test();
+console.log('outside foo is "%s"', foo);</code></pre>
+
+<p>Will output</p>
+
+<pre class="fragment"><code class="javascript">test foo is "inside"
+outside foo is "inside"</code></pre>
+
+---
+
+## Hoisting
+
+
+<pre><code class="javascript runnable">console.log('foo' in ctx);
+var foo;
+</code></pre>
+
+
+---
+
+<h2>Hoisting: variables</h2>
+
+<div class="two-columns small-code">
+<pre><code class="javascript runnable" data-runnable-output="jsonalert">var foo = 1;
+function bar() {
+    if (!foo) {
+        var foo = 10;
+    }
+    return foo;
+}
+bar();
+</code></pre>
+<pre class="fragment"><code class="javascript runnable">// Is compiled into
+var foo = 1;
+function bar() {
+    var foo;
+    if (!foo) {
+        foo = 10;
+    }
+    return foo;
+}
+bar();</code></pre>
+
+</div>
+
+<div class="fragment">
+    <blockquote style="margin-top:50px;">
+        <p>Variable declarations are hoisted to the top of context by compiler</p>
+    </blockquote>
+</div>
+
+
+
+---
+
+<h2>Hoisting: functions</h2>
+
+<div class="two-columns small-code">
+<pre><code class="javascript runnable">var a = 1;
+function b() {
+    a = 10;
+    return;
+    function a() {};
+}
+
+b();
+alert(a);
+</code></pre>
+<pre class="fragment"><code class="javascript">// Is compiled into
+var a = 1;
+function b() {
+    // declare a local symbol
+    function a() {};
+    a = 10;
+    return;
+}
+b();
+alert(a);</code></pre>
+</div>
+
+<div class="fragment">
+    <blockquote style="margin-top:50px;">
+        <p>Function declarations are hoisted too.</p>
+    </blockquote>
+    <p style="margin-top:50px;">To go further on hoisting: <a href="http://www.adequatelygood.com/JavaScript-Scoping-and-Hoisting.html">adequatelygood</a></p>
+</div>
+
+
+
+</script></section>
+<section data-markdown data-separator="^\n---+\n---+\n$" data-vertical="^\n---+\n$" data-notes="^Note:" data-charset="utf-8"><script type="text/template">
+
+# Closures
+
+---
+
+<h2>Definition</h2>
+
+<p class="big">A <strong>closure</strong> is a <em>function</em> alongside a <em>referencing environment</em>.</p>
+
+<p style="margin-top: 50px;text-align: left;">To be short, you can reference variables that belongs to the context where function was <strong>defined</strong>.</p>
+
+<p>In the meantime, a function creates its <em>own context</em>.</p>
+
+---
+
+<h2>Example 1: public API</h2>
+
+<pre><code class="javascript runable">var x = 0;
+function incr() {
+    x++;
+    console.log(x);
+}
+function decr() {
+    x--;
+    console.log(x);
+}
+
+console.log(x); // log 0
+incr();         // log 1
+incr();         // log 2
+decr();         // log 1</code></pre>
+
+---
+
+<h2>Example 2</h2>
+
+<p>Create a callback from a variable:</p>
+
+<pre><code class="javascript runable">function createAdd(number) {
+    function doAdd(value) {
+        return value + number;
+    }
+
+    return doAdd;
+}
+
+var add10 = createAdd(10);
+alert(add10(1)); // returns 11</code></pre>
+
+---
+
+<h2>Example 3</h2>
+
+<p>Closure creates it's own context:</p>
+
+<pre><code class="javascript runable">var x = 5;
+
+function foo() {
+    var x = 12;
+    function myFun() {
+        // do something
+    }
+    return myFun;
+}
+
+console.log(foo());     // log function myFun() {...}
+console.log(x);         // log 5
+console.log(myFun);     // reference error</code></pre>
+
+
+</script></section>
+<section data-markdown data-separator="^\n---+\n---+\n$" data-vertical="^\n---+\n$" data-notes="^Note:" data-charset="utf-8"><script type="text/template">
+<h1>Invocation pattern</h1>
+<h3>aka <code>this</code> keyword</h3>
+
+---
+
+<h2>When calling a method on an object</h2>
+
+<pre><code class="javascript runable">var john = {
+    name: "John"
+};
+
+john.sayHello = function () {
+    alert("Hello " + this.name);
+};
+
+john.sayHello();</code></pre>
+
+<p><code>this</code> is the object.</p>
+
+
+---
+
+<h2>When Calling A Function</h2>
+
+<pre><code class="javascript runable">var name = "Garry";
+
+function sayHello() {
+    alert("Hello " + this.name);
+}
+
+sayHello();</code></pre>
+
+<p><code>this</code> is the current context:</p>
+
+
+---
+
+<h2>Common Gotcha</h2>
+
+<pre><code class="javascript runable">var name = "Garry";
+var joe = {
+    name: "Joe"
+};
+
+joe.sayHello = function sayHello() {
+    alert("Hello " + this.name);
+}
+
+var fct = joe.sayHello;
+
+fct();</code></pre>
+
+
+---
+
+<h2>Force execution context</h2>
+
+<pre><code class="javascript runable">var joe = {
+    name: "Joe"
+};
+function sayHello(greeting, to) {
+    greeting || (greeting = 'Hello');
+    to || (to = 'annonymous');
+
+    alert([greeting, to, 'I\'m', this.name].join(' '));
+}
+
+sayHello.call(joe, 'Good morning', 'Garry');
+sayHello.apply(joe, ['Good morning', 'Garry']);</code></pre>
+
+<p>will both result into</p>
+
+<blockquote><p>Good morning Garry, I'm Joe.</p></blockquote>
+
+---
+
+<h2>Context binding</h2>
+
+<pre><code class="javascript">function bind(context, method) {
+
+    return function () {
+        method.apply(context, arguments);
+    }
+}</code></pre>
+
+<div style="margin-top: 50px;">
+<p>This way, you can make sure the context is what you expect.</p>
+
+<p>In <strong>jQuery</strong> it is called <code>$.proxy</code>.</p>
+</div>
+
+---
+
+<p>
+Read more on partial application on
+<a href="http://benalman.com/news/2012/09/partial-application-in-javascript/">Cowboy's blog</a>
+and
+<a href="http://doctrina.org/Javascript-Function-Invocation-Patterns.html">Invocation patterns in depth</a>
+</p>
+
+
+</script></section>
+<section data-markdown data-separator="^\n---+\n---+\n$" data-vertical="^\n---+\n$" data-notes="^Note:" data-charset="utf-8"><script type="text/template">
+
+<h1>Object Model</h1>
+
+---
+
+## Constructor
+
+<p class="separation">A constructor is a simple function</p>
+
+``` javascript
+var User = function User(properties) {
+    // init properties if falsy
+    properties || (properties = {});
+
+    this.firstname = properties['firstname'];
+    this.lastname  = properties['lastname'];
+};
+```
+
+<p class="separation">Instantiation is as expected:</p>
+
+``` javascript
+var john = new User({
+    firstname: "John",
+    lastname: "Doe"
+});
+```
+
+---
+
+## Adding functions
+
+``` javascript
+User.prototype.sayHello = function sayHello() {
+    alert("Hello, I'm " + this.firstname);
+};
+```
+
+To be more efficient, use `extend` function:
+
+``` javascript
+$.extend(User.prototype, {
+    sayHello: function sayHello() {
+        alert("Hello, I'm " + this.firstname);
+    },
+    goodBye: function goodBye() {
+        alert("Bye !");
+    }
+});
+```
+
+---
+
+## Reference
+
+[Introduction to Object Oriented JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript)
+
+---
+
+## Prototype is great
+
+* Multiple inheritance;
+* Add a method to all instances;
+* Pattern strategy.
+
+---
+
+## Prototype cons
+
+* No visibility;
+* Not natural at first glance;
+* You can mess up existing code.
+
+> Never override native objects prototypes.
+
+
+</script></section>
+<section data-markdown data-separator="^\n---+\n---+\n$" data-vertical="^\n---+\n$" data-notes="^Note:" data-charset="utf-8"><script type="text/template">
+
+# Modules
+
+---
+
+## Simple modules
+
+Use <accronym title="Immediately-Invoked Function Expression">IIFE</accronym> to isolate context
+
+``` javascript
+var myModule = (function (window, undefined) {
+    var privateVariable;
+
+    function foo () {
+    }
+    function bar () {
+    }
+
+    return {
+        foo: foo,
+        bar: bar
+    };
+})(window);
+```
+
+More about <accronym title="Immediately-Invoked Function Expression">IIFE</accronym>
+on [Cowboy's blog](http://benalman.com/news/2010/11/immediately-invoked-function-expression/)
+
+---
+
+## AMD
+
+Asynchronous Module Definition relies on `define`.
+
+``` javascript
+define([
+    'jquery',
+    'app/model/user'
+], function ($, User) {
+    var user = new User();
+
+    /* ... */
+
+    return something;
+});
+```
+
+> [curljs](http://davidwalsh.name/curljs) and [requirejs](http://requirejs.org/)
+> are amd loader.
+>
+> [amdclean](https://github.com/gfranko/amdclean) removes extra `define`
+
+---
+
+## CommonJS
+
+#### aka `exports` and `require`
+
+[browserify](http://browserify.org/) allow to use [nodejs](http://nodejs.org/)
+dependency model.
+
+``` javascript
+module.exports = (function () {
+
+    var User = require(__dirname + '/model/user');
+
+    var u = new User();
+
+    /* ... */
+
+    return something;
+})();
+```
+
+---
+
+<!-- .slide: id="es6-modules" -->
+
+## ES6 modules
+
+Import module as a variable
+
+``` javascript
+import "jquery" as jQuery;
+```
+
+Import one part of a module
+
+``` javascript
+import Point from "math";
+```
+
+Import multiple parts of a module
+
+``` javascript
+import { sqrt, Point } from "math";
+```
+
+---
+
+## ES6 import module
+
+Export an object as the module
+
+``` javascript
+export = jQuery;
+```
+
+Export an object as a module property
+
+``` javascript
+export Point;
+```
+
+Export multiple objects as module properties
+
+``` javascript
+export { sqrt, Point };
+```
+
+---
+
+## Play with ES6 modules now
+
+[es6 transpiler](http://square.github.io/es6-module-transpiler/)
+
+[Traceur compiler](https://github.com/google/traceur-compiler)
+
+</script></section>
+<section data-markdown data-separator="^\n---+\n---+\n$" data-vertical="^\n---+\n$" data-notes="^Note:" data-charset="utf-8"><script type="text/template">
+# NPM
+
+<!-- .slide: data-background-image="img/npm.png" data-background-size="auto 30%" data-background-position="center 10%" class="hide-title" -->
+
+Manage server dependencies
+
+[npmjs.org](https://npmjs.org/) <!-- .element: class="icontext link" -->
+
+---
+
+## package.json
+
+```
+{
+ "name" : "foo"
+ , "version" : "1.2.3"
+ , "description" : "A packaged foo fooer for fooing foos"
+ , "main" : "foo.js"
+ , "man" : [ "./man/foo.1", "./man/bar.1" ]
+}
+```
+
+[package.json reference](https://npmjs.org/doc/files/package.json.html) <!-- .element: class="alert doc" -->
+
+---
+
+## Commands
+
+``` bash
+$ npm init
+
+$ npm install
+
+$ npm install --save-dev grunt@4.0.3
+
+$ npm install -g grunt-cli
+
+$ npm install --save express
+```
+
+[NPM documentation](https://npmjs.org/doc/) <!-- .element: class="icontext link" -->
+
+---
+---
+
+<!-- .slide: data-background-image="img/bower-logo.png" data-background-size="auto 70%" data-background-position="left center" -->
+
+# Bower
+
+Manage frontend assets
+
+[bower.io](http://bower.io/) <!-- .element: class="icontext link" -->
+
+---
+
+<!-- .slide: data-background-image="img/bower-logo.png" data-background-size="auto 70%" data-background-position="left center" -->
+
+## bower.json
+
+```
+{
+  "name": "my-project",
+  "version": "1.0.0",
+  "main": "path/to/main.css",
+  "ignore": [ ".jshintrc", "**/*.txt" ],
+  "dependencies": {
+    "<name>": "<version>",
+    "<name>": "<folder>",
+    "<name>": "<package>"
+  },
+  "devDependencies": {
+    "<test-framework-name>": "<version>"
+  }
+}
+```
+
+---
+
+<!-- .slide: data-background-image="img/bower-logo.png" data-background-size="auto 70%" data-background-position="left center" -->
+
+## Commands
+
+``` bash
+$ bower init
+
+$ bower install
+
+$ bower install --save-dev requirejs#2.x
+
+$ bower install --save jquery
+```
+
+---
+---
+
+<!-- .slide: data-background-image="img/yo-logo.png" data-background-size="auto 70%" data-background-position="right center" -->
+
+# Yo!
+
+Application scaffolding
+
+[Yo! on github](https://github.com/yeoman/yo) <!-- .element: class="icontext link" -->
+and
+[yeoman](http://yeoman.io) <!-- .element: class="icontext link" -->
+
+---
+---
+
+<!-- .slide: data-background-image="img/grunt-logo.png" data-background-size="auto 70%" data-background-position="left center" -->
+
+# Grunt
+
+Javascript task runner, based on JSON configuration.
+
+[gruntjs.com](http://gruntjs.com/) <!-- .element: class="icontext doc" -->
+
+---
+
+<!-- .slide: data-background-image="img/grunt-logo.png" data-background-size="auto 70%" data-background-position="left center" -->
+
+## Resources
+
+* [Getting started](http://gruntjs.com/getting-started)
+* [Your first GruntJS plugin](http://javascriptplayground.com/blog/2014/01/creating-your-first-grunt-plugin/)
+
+---
+
+## Glup
+
+[gulpjs.com](http://gulpjs.com/) is a stream based build system, favoring code over configuration.
+
+</script></section>
+<section data-markdown data-separator="^\n---+\n---+\n$" data-vertical="^\n---+\n$" data-notes="^Note:" data-charset="utf-8"><script type="text/template">
+
+# Resources
+
+---
+
+## Starter guides
+
+* [MDN](https://developer.mozilla.org)
+* [Eloquent javascript](http://eloquentjavascript.net/)
+* [Daily JS - 101](http://dailyjs.com/js101.html)
+* [A list of frontend tools](https://github.com/dypsilon/frontend-dev-bookmarks)
+* [microjs](http://microjs.com/#) — a micro-site for micro-frameworks
+
+---
+
+## Keep up to date
+
+* [echo.js](http://www.echojs.com/)
+* [frontendrescue](http://uptodate.frontendrescue.org) also on twitter [@frontendrescue](https://twitter.com/frontendrescue)
+
+---
+
+## Videos
+
+* [Javascript the good parts](http://www.youtube.com/watch?v=hQVTIJBZook)
+* [learn chrome devtools](http://www.codeschool.com/courses/discover-devtools)
+
+---
+
+## Articles
+
+* [Javascript this](http://doctrina.org/Javascript-Function-Invocation-Patterns.html) and
+[another](http://tech.pro/tutorial/1192/avoiding-the-this-problem-in-javascript)
+* [Functions explained](http://markdaggett.com/blog/2013/02/15/functions-explained/)
+* [Coding standards](http://markdaggett.com/blog/2013/02/15/pragmatic-javascript-style/)
+
+---
+---
+
+# Tools
+
+---
+
+
+## Linters
+
+* [jshint](http://www.jshint.com/)
+* [jslint](http://www.jslint.com/)
+* [jsonlint](http://jsonlint.com/)
+
+---
+
+## Unit testing
+
+* [Introduction to unit testing](http://coding.smashingmagazine.com/2012/06/27/introduction-to-javascript-unit-testing/)
+* [Qunit](http://qunitjs.com/) jQuery unit test
+* [Mocha](http://visionmedia.github.io/mocha/)
+
+---
+
+## Functional testing
+
+* [CasperJS](http://casperjs.org)
+* [Zombie](http://zombie.labnotes.org/)
+
+---
+
+## Organize and build
+
+* [requirejs](http://requirejs.org/)
+* [browserify](http://browserify.org/)
+* [Grunt](http://gruntjs.com/) with a [sample
+bootstrap](https://gist.github.com/themouette/5209261);
+* [uglifyjs](http://lisperator.net/uglifyjs/)
+* [bower](http://twitter.github.io/bower/)
+
+---
+
+## Libraries
+
+* [Lo-Dash](http://lodash.com/) or [underscorejs](http://underscorejs.org/)
+* [BackboneJS](http://backbonejs.org/) and
+[Marionette](http://marionettejs.com/) ([learn
+Marionette](http://coding.smashingmagazine.com/2013/02/11/introduction-backbone-marionette/))
+* [Handlebars](http://handlebarsjs.com/):
+[learn](http://blog.teamtreehouse.com/getting-started-with-handlebars-js)
+[it](http://blog.teamtreehouse.com/handlebars-js-part-2-partials-and-helpers)
+
+---
+---
+
+Thank you
+=========
+
+---
+---
+
+Questions ?
+===========
+
+---
+---
+
+Operators
+=========
+
+---
+
+## Arithmetic Operators
+
+```
++, -, *, /, %, ++, --, unary -, unary +
+```
+
+<!-- .element: class="alert info" --> Arithmetic operators take numerical values (either literals or variables) as their operands and return a single numerical value.
+
+<!-- .element: class="icontext doc" --> [Reference](https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Operators/Arithmetic_Operators)
+
+---
+
+## Assignment Operators
+
+```
+=, *=, /=, %=, +=, -=, <<=, >>=, >>>=, &=, ^=, |=
+```
+
+<!-- .element: class="alert info" --> An assignment operator assigns a value to its left operand based on the value of its right operand.
+
+<!-- .element: class="icontext doc" --> [Reference](https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Operators/Assignment_Operators)
+
+---
+
+## Bitwise Operators
+
+```
+&, |, ^, ~, <<, >>, >>>
+```
+
+<!-- .element: class="alert info" --> Bitwise operators treat their operands as a set of 32 bits (zeros and ones) and return standard JavaScript numerical values.
+
+<!-- .element: class="icontext doc" --> [Reference](https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Operators/Bitwise_Operators)
+
+---
+
+## Comparison Operators
+
+```
+==, !=, ===, !==, >, >=, <, <=
+```
+
+<!-- .element: class="alert info" --> A comparison operator compares its operands and returns a logical value based on whether the comparison is true.
+
+<!-- .element: class="icontext doc" --> [Reference](https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Operators/Comparison_Operators)
+
+---
+
+## Logical Operators
+
+```
+&&, ||, !
+```
+
+<!-- .element: class="alert info" --> Logical operators are typically used with boolean (logical) values, and when they are, they return a boolean value.
+
+Examples:
+
+<pre><code class="javascript runnable" data-runnable-output="jsonalert">"foo" && 3;</code></pre>
+<pre><code class="javascript runnable" data-runnable-output="jsonalert">2 || 3;</code></pre>
+
+<!-- .element: class="icontext doc" --> [Reference](https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Operators/Logical_Operators)
+
+
+---
+
+## String Operators
+
+```
++ and +=
+```
+
+<!-- .element: class="alert info" --> The string operators concatenate two string values together, returning another string that is the union of the two strings.
+
+<!-- .element: class="icontext doc" --> [Reference](https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Operators/String_Operators)
+
+---
+---
+
+## [Back to index](#)
+
+</script></section>
+            </div> <!-- End of .slides -->
+
+        </div> <!-- end of #reveal -->
+
+        <script src="reveal.js/lib/js/head.min.js"></script>
+        <script src="reveal.js/js/reveal.min.js"></script>
+
+        
+        <script src="scripts/runnable.js"></script>
+        
+
+        <script>
+
+            // Full list of configuration options available here:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                history: true,
+                center: true,
+                slideNumber: true,
+
+                theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+                transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+                // Parallax scrolling
+                // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+                // parallaxBackgroundSize: '2100px 900px',
+
+                // Optional libraries used to extend on reveal.js
+                dependencies: [
+                    { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+                    { src: 'reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+                ]
+            });
+
+        </script>
+
+    </body>
+</html>
