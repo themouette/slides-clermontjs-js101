@@ -125,6 +125,6 @@ Javascript task runner, based on JSON configuration.
 
 ---
 
-## Glup
+## Gulp
 
 [gulpjs.com](http://gulpjs.com/) is a stream based build system, favoring code over configuration.
