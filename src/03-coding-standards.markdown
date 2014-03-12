@@ -76,6 +76,8 @@ var foo = {
 
 ---
 
+<!-- .slide: class="small-code" -->
+
 <h2>CS: Semicolons</h2>
 
 <p>Semicolons `;` are optional as <strong><accronym title="Automatic Semicolon Insertion">ASI</accronym></strong> insert them for us.</p>
