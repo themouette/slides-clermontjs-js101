@@ -45,12 +45,12 @@ typeof foo;
 <pre><code class="javascript runnable" data-runnable-output="alert">0.1 + 0.2 === 0.30000000000000004</code></pre>
 
 <ul>
-<li>**64 bytes** total;</li>
-<li>**1 byte** for sign;</li>
-<li>**11 bytes** for dot position</li>
+<li>**64 bits** total;</li>
+<li>**1 bit** for sign;</li>
+<li>**11 bits** for dot position</li>
 </ul>
 
-<p class="alert info">**52 bytes** left for number itself.</p>
+<p class="alert info">**52 bits** left for number itself.</p>
 
 ---
 
